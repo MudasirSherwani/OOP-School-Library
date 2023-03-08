@@ -39,6 +39,9 @@ And all of this will be built in a beautiful and well-organized way!
 >In this project, I have build school library app. In this initial step, I have implemented 
  the classes to represent students and teachers.
  
+## Decorate a Class.
+In this section of project i have used the Decorator design pattern to correct the names of person.
+
 ## 🛠 Built With <a name="built-with"></a>
 
 ### Tech Stack <a name="tech-stack"></a>
