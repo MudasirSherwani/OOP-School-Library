@@ -22,4 +22,4 @@ Rental.new(Date.today, book2, person1)
 Rental.new(Date.today, book3, person2)
 
 # Check rented books for a person
-puts person1.rented_books.map(&:title)  
+puts person1.rented_books.map(&:title)
