@@ -36,11 +36,15 @@ And all of this will be built in a beautiful and well-organized way!
 <!-- PROJECT DESCRIPTION -->
 # 📖 About the Project <a name="about-project"></a>
 ## Add Person, Student and Teacher classes.
->In this project, I have build school library app. In this initial step, I have implemented 
+> In this project, I have build school library app. In this initial step, I have implemented 
  the classes to represent students and teachers.
  
 ## Decorate a Class.
-In this section of project i have used the Decorator design pattern to correct the names of person.
+> In this section of project i have used the Decorator design pattern to correct the names of person.
+
+## Set Up Associations
+> In this section of  project, I have finished creation of the remaining classes for our school library and create the associations between them.
+
 
 ## 🛠 Built With <a name="built-with"></a>
 
