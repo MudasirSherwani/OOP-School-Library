@@ -77,7 +77,6 @@ class App
     end
   end
 
-  
   def create_student
     puts 'Age: '
     ag = gets.chomp
@@ -90,16 +89,5 @@ class App
     puts 'Student added  successfully'
   end
 
-  def create_teacher
-    puts 'Age: '
-    ag = gets.chomp
-    puts 'Name: '
-    nm = gets.chomp
-    puts 'Specialization: '
-    specialization = gets.chomp
-    teacher = Teacher.new(ag, nm, specialization)
-    @people.push(teacher)
-    puts 'Teacher added successfully'
-  end
   
 end
