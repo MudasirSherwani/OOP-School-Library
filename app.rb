@@ -43,7 +43,6 @@ class App
     puts 'Book created successfully'
   end
 
-  
   def list_people
     person_data = ''
     @people.each do |p|
@@ -101,8 +100,7 @@ class App
     @people.push(teacher)
     puts 'Teacher added successfully'
   end
-  
-  
+
   def create_rental
     puts 'Select a book from the list by No'
     books_index
@@ -165,5 +163,4 @@ class App
       puts person_data
     end
   end
-
 end
