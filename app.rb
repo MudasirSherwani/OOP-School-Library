@@ -120,12 +120,12 @@ class App
   def list_rentals
     rental_data = ''
     print 'To see person rentals enter the person ID: '
-    id = gets.chomp.to_i
+    @id = gets.chomp.to_i
     rental_data = 'Rented Books: '
     @rentals.each do |rent|
       person = rent.instance_variable_get(:@person)
       person_id = person.instance_variable_get(:@id)
-      next unless person_id == id
+      next unless person_id == @id
 
       book = rent.instance_variable_get(:@book)
       title = book.instance_variable_get(:@title)
@@ -133,7 +133,7 @@ class App
       rental_data += " Date: #{rent.date} Book: #{title} by Author: #{author} "
       rental_data += "\n"
     end
-    if rental_data == ''
+    if rental_data == 'Rented Books: '
       puts 'No Rental Data Found !!'
     else
       puts rental_data
@@ -141,7 +141,7 @@ class App
   end
 
   def books_index
-    @books.each_index do |book, index|
+    @books.each_with_index do |book, index|
       book_data = " #{index}: "
       book.instance_variables.each do |val|
         value = book.instance_variable_get(val)
@@ -153,7 +153,7 @@ class App
   end
 
   def people_index
-    @people.each_index do |person, index|
+    @people.each_with_index do |person, index|
       person_data = " #{index}: "
       person.instance_variables.each do |val|
         value = person.instance_variable_get(val)
