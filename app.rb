@@ -2,24 +2,43 @@ require_relative 'book'
 require_relative 'classroom'
 require_relative 'rental'
 require_relative 'person'
+require_relative 'teacher'
 require_relative 'student'
 require 'date'
 
-classroom = Classroom.new('Data Science')
-student1 = Student.new('Mudasir Sherwani')
-student2 = Student.new('Ashraf')
-classroom.add_student(student1)
-classroom.add_student(student2)
+class App
+  attr_accessor :books, :rentals, :people
 
-# Create some books and rentals
-book1 = Book.new('The Great Book', 'Fitzgerald')
-book2 = Book.new('To Kill a Tiger', 'Harper')
-book3 = Book.new('1895', 'George Orwell')
-person1 = Person.new(32, 'Alice')
-person2 = Person.new(25, 'Bob')
-Rental.new('2022-02-02', book1, person1)
-Rental.new(Date.today, book2, person1)
-Rental.new(Date.today, book3, person2)
+  def initialize
+    @books = []
+  end
 
-# Check rented books for a person
-puts person1.rented_books.map(&:title)
+  def list_books
+    book_data = ''
+    @books.each do |book|
+      book.instance_variables.each do |val|
+        value = book.instance_variable_get(val)
+        val = val.to_s.delete('@')
+        val = val.capitalize
+        book_data += " #{val}: #{value}" unless val.include?('Rentals')
+      end
+      book_data += "\n"
+    end
+    if book_data == ''
+      puts 'Books Not Found !!'
+    else
+      puts book_data
+    end
+  end
+
+  def create_book
+    puts 'Title: '
+    t = gets.chomp
+    puts 'Author: '
+    a = gets.chomp
+    book = Book.new(t, a)
+    @books.push(book)
+    puts 'Book created successfully'
+  end
+
+end
