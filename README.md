@@ -50,6 +50,8 @@ And all of this will be built in a beautiful and well-organized way!
 **Set Up Associations**
 > In this section of  project, I have finished creation of the remaining classes for our school library and create the associations between them.
 
+**Add Basic UI**
+>In this section of project, I have created a form of UI for the school library app. This way it can be invoked as an executable used in IRB exclusively.
 
 ## 🛠 Built With <a name="built-with"></a>
 
