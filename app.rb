@@ -7,7 +7,7 @@ require_relative 'student'
 require 'date'
 
 class App
-  attr_accessor :books, :rentals, :people
+  attr_accessor :books, :people, :rentals
 
   def initialize
     @books = []
@@ -96,7 +96,7 @@ class App
     nm = gets.chomp
     puts 'Specialization: '
     specialization = gets.chomp
-    teacher = Teacher.new(ag, nm, specialization)
+    teacher = Teacher.new(ag, nm, true, specialization)
     @people.push(teacher)
     puts 'Teacher added successfully'
   end
