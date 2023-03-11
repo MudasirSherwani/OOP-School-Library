@@ -14,7 +14,7 @@ class Main
     puts '6. List all rentals for a given person id'
     puts '0. Quit'
 
-    choice = gets.chomp.to_i
+    choice = gets.chomp
 
     case choice
     when 1

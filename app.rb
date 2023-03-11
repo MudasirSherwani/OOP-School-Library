@@ -1,3 +1,4 @@
+require 'pry'
 require_relative 'book'
 require_relative 'classroom'
 require_relative 'rental'
@@ -22,7 +23,8 @@ class App
         value = book.instance_variable_get(val)
         val = val.to_s.delete('@')
         val = val.capitalize
-        book_data = " #{val}: #{value}" unless val.include?('Rentals')
+        book_data += " #{val}: #{value}" unless val.include?('Rentals')
+        # binding.pry
       end
       book_data += "\n"
     end
