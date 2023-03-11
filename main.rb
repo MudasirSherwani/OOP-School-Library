@@ -1,4 +1,5 @@
 require_relative 'app'
+require 'pry'
 
 class Main
   newapp = App.new
@@ -17,19 +18,19 @@ class Main
     choice = gets.chomp
 
     case choice
-    when 1
+    when "1"
       newapp.list_books
-    when 2
+    when "2"
       newapp.list_people
-    when 3
+    when "3"
       newapp.create_person
-    when 4
+    when "4"
       newapp.create_book
-    when 5
+    when "5"
       newapp.create_rental
-    when 6
+    when "6"
       newapp.list_rentals
-    when 0
+    when "0"
       puts 'Thank you for using the School Library App!'
       break
     else
