@@ -177,6 +177,12 @@ Example:
 ## 👥 Authors <a name="authors"></a>
 
 
+👤 **Alex Osoro Ogeto**
+
+- GitHub: [@githubhandle](https://github.com/Osoro254Alex)
+- Twitter: [@twitterhandle](https://twitter.com/ALEX14809153)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/alexogeto/)
+
 👤 **Mudasir Sherwani**
 
 - GitHub: [@Mudasir Sherwani](https://github.com/MudasirSherwani)
