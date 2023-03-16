@@ -183,12 +183,6 @@ Example:
 - Twitter: [@Mudasir Sherwani](https://twitter.com/mudasirsherwani)
 - LinkedIn: [Mudasir Sherwani](https://linkedin.com/in/mudasir-sherwani)
 
-👤 **Alex Osoro Ogeto**
-
-- GitHub: [@githubhandle](https://github.com/Osoro254Alex)
-- Twitter: [@twitterhandle](https://twitter.com/ALEX14809153)
-- LinkedIn: [LinkedIn](https://www.linkedin.com/in/alexogeto/)
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
