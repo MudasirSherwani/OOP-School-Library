@@ -1,13 +1,21 @@
 require 'json'
 
 class Storage
-def initialize(file)
+  def initialize(file)
     @file = file
-end
+  end
 
-def save(data)
+  def save(data)
     maped_data = data.map(&:to_h)
-    File.write(file, JSON.generate(maped_data))
-end
+    File.write(@file, JSON.generate(maped_data))
+  end
 
+  def load()
+    if File.exist?(@file)
+      r_data = File.read(@file)
+      JSON.parse(r_data)
+    else
+      []
+    end
+  end
 end
