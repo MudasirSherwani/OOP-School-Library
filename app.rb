@@ -10,9 +10,19 @@ class App
   attr_accessor :books, :people, :rentals
 
   def initialize
+    work_dir = Dir.pwd.to_s
+    books_data = File.read("#{work_dir}/store/books.json")
+    people_data = File.read("#{work_dir}/store/people.json")
+    rentals_data = File.read("#{work_dir}/store/rentals.json")
     @books = []
+    JSON.parse(books_data).each { |x| @books.push(Book.new(x['title'], x['author'])) } unless books_data == ''
+
     @people = []
+    handle_people(people_data == '' ? [] : JSON.parse(people_data))
+
     @rentals = []
+
+    handle_rentals(rentals_data == '' ? [] : JSON.parse(rentals_data))
   end
 
   def list_books
