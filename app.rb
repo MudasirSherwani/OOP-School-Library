@@ -4,32 +4,31 @@ require_relative 'rental'
 require_relative 'person'
 require_relative 'teacher'
 require_relative 'student'
+require_relative 'file_storage'
+require 'json'
 require 'date'
+require 'pry'
 
 class App
   attr_accessor :books, :people, :rentals
 
   def initialize
     @books = []
-    @people = []
+    @peoples = []
     @rentals = []
+    @stored_people = Storage.new('store/people.json')
+    @stored_books = Storage.new('store/books.json')
+    @stored_rentals = Storage.new('store/rentals.json')
   end
 
   def list_books
-    book_data = ''
-    @books.each do |book|
-      book.instance_variables.each do |val|
-        value = book.instance_variable_get(val)
-        val = val.to_s.delete('@')
-        val = val.capitalize
-        book_data += " #{val}: #{value}" unless val.include?('Rentals')
+    if @stored_books.valid? == true
+      loaded_books = @stored_books.load
+      loaded_books.each_with_index do |book, i|
+        puts "Book_No: [#{i + 1}] Book ID: #{i}   Title: #{book['title']}   Author: #{book['author']}\n"
       end
-      book_data += "\n"
-    end
-    if book_data == ''
-      puts 'Books Not Found !!'
     else
-      puts book_data
+      puts 'Books Not Found !!'
     end
   end
 
@@ -41,23 +40,23 @@ class App
     book = Book.new(t, a)
     @books.push(book)
     puts 'Book created successfully'
+    loaded_books = @stored_books.load
+    @books.each do |bk|
+      loaded_books << {
+        title: bk.title, author: bk.author
+      }
+    end
+    @stored_books.save(loaded_books)
   end
 
   def list_people
-    person_data = ''
-    @people.each do |p|
-      p.instance_variables.each do |val|
-        value = p.instance_variable_get(val)
-        val = val.to_s.delete('@')
-        val = val.capitalize
-        person_data += " #{val}: #{value} " unless val.include?('Rentals') or val.include?('Classroom')
+    if @stored_people.valid? == true
+      loaded_people = @stored_people.load
+      loaded_people.each_with_index do |people, i|
+        puts "Person_No: [#{i + 1}] Person ID: #{people['id']}   Age: #{people['age']} Name: #{people['name']}}\n"
       end
-      person_data += "\n"
-    end
-    if person_data == ''
-      puts 'No person Found !!'
     else
-      puts person_data
+      puts 'Person Not Found !!'
     end
   end
 
@@ -85,8 +84,15 @@ class App
     puts 'Has parent permission? [Y/N]'
     parent_permission = gets.chomp.upcase == 'Y'
     student = Student.new(ag, nm, parent_permission)
-    @people.push(student)
+    @peoples.push(student)
     puts 'Student added  successfully'
+    loaded_person = @stored_people.load
+    @peoples.each do |person|
+      loaded_person << {
+        age: person.age, name: person.name, id: person.id
+      }
+    end
+    @stored_people.save(loaded_person)
   end
 
   def create_teacher
@@ -97,70 +103,51 @@ class App
     puts 'Specialization: '
     specialization = gets.chomp
     teacher = Teacher.new(ag, nm, true, specialization)
-    @people.push(teacher)
+    @peoples.push(teacher)
     puts 'Teacher added successfully'
+    loaded_person = @stored_people.load
+    @peoples.each do |person|
+      loaded_person << {
+        age: person.age, name: person.name, id: person.id, specialization: person.specialization
+      }
+    end
+    @stored_people.save(loaded_person)
   end
 
   def create_rental
     puts 'Select a book from the list by No'
-    books_index
+    list_books
     selected_book = gets.chomp.to_i
     puts 'Select a person from the list by No'
-    people_index
+    list_people
     selected_person = gets.chomp.to_i
     print 'Date: '
     date = gets.chomp
-    book = @books[selected_book]
-    person = @people[selected_person]
-    rental = Rental.new(date, book, person)
-    @rentals.push(rental)
+    book_geter = @stored_people.load.select { |p| p['id'] == selected_person }
+    @rentals.push(Rental.new(date, @stored_books.load[selected_book], book_geter[0]))
+    loaded_rentle = @stored_rentals.load
+    @rentals.each do |rental|
+      loaded_rentle << { date: rental.date, book: { title: rental.book['title'], author: rental.book['author'] },
+                         person: { id: rental.person['id'], name: rental.person['name'], age: rental.person['age'],
+                                   class: rental.person['class'] } }
+    end
     puts 'Rental created successfully'
+    @stored_rentals.save(loaded_rentle)
   end
 
   def list_rentals
-    rental_data = ''
-    print 'To see person rentals enter the person ID: '
-    @id = gets.chomp.to_i
-    rental_data = 'Rented Books: '
-    @rentals.each do |rent|
-      person = rent.instance_variable_get(:@person)
-      person_id = person.instance_variable_get(:@id)
-      next unless person_id == @id
+    loaded_rental = @stored_rentals.load
+    list_people
+    print 'Id of person: '
+    id = gets.chomp.to_i
+    person = list_people.select { |p| p['id'] == id }
+    return unless person[0]
 
-      book = rent.instance_variable_get(:@book)
-      title = book.instance_variable_get(:@title)
-      author = book.instance_variable_get(:@author)
-      rental_data += " Date: #{rent.date} Book: #{title} by Author: #{author} "
-      rental_data += "\n"
-    end
-    if rental_data == 'Rented Books: '
-      puts 'No Rental Data Found !!'
-    else
-      puts rental_data
-    end
-  end
-
-  def books_index
-    @books.each_with_index do |book, index|
-      book_data = " #{index}: "
-      book.instance_variables.each do |val|
-        value = book.instance_variable_get(val)
-        val = val.to_s.delete('@')
-        book_data += " #{val}: #{value} " unless val.include?('rentals') or val.include?('classroom')
+    puts "#{person[0]['name']}'s rented books: \n"
+    loaded_rental.each_with_index do |rental, _i| \
+      if rental['person']['id'] == id
+        puts "Date: #{rental['date']}, Book: #{rental['book']['title']} by #{rental['book']['author']}"
       end
-      puts book_data
-    end
-  end
-
-  def people_index
-    @people.each_with_index do |person, index|
-      person_data = " #{index}: "
-      person.instance_variables.each do |val|
-        value = person.instance_variable_get(val)
-        val = val.to_s.delete('@')
-        person_data += " #{val}: #{value} " unless val.include?('rentals') or val.include?('classroom')
-      end
-      puts person_data
     end
   end
 end
