@@ -5,7 +5,7 @@ require_relative 'person'
 require_relative 'teacher'
 require_relative 'student'
 require_relative 'file_storage'
-require'json'
+require 'json'
 require 'date'
 require 'pry'
 
@@ -22,7 +22,6 @@ class App
   end
 
   def list_books
-    loaded_books = ''
     if @stored_books.valid? == true
       loaded_books = @stored_books.load
       loaded_books.each_with_index do |book, i|
@@ -42,16 +41,15 @@ class App
     @books.push(book)
     puts 'Book created successfully'
     loaded_books = @stored_books.load
-      @books.each do |book|
+    @books.each do |bk|
       loaded_books << {
-        title: book.title, author: book.author
+        title: bk.title, author: bk.author
       }
     end
     @stored_books.save(loaded_books)
   end
 
   def list_people
-    loaded_people = ''
     if @stored_people.valid? == true
       loaded_people = @stored_people.load
       loaded_people.each_with_index do |people, i|
@@ -79,7 +77,6 @@ class App
   end
 
   def create_student
-
     puts 'Age: '
     ag = gets.chomp
     puts 'Name: '
@@ -90,13 +87,12 @@ class App
     @peoples.push(student)
     puts 'Student added  successfully'
     loaded_person = @stored_people.load
-      @peoples.each do |person|
-        loaded_person << {
+    @peoples.each do |person|
+      loaded_person << {
         age: person.age, name: person.name, id: person.id
       }
     end
     @stored_people.save(loaded_person)
-
   end
 
   def create_teacher
@@ -110,8 +106,8 @@ class App
     @peoples.push(teacher)
     puts 'Teacher added successfully'
     loaded_person = @stored_people.load
-      @peoples.each do |person|
-        loaded_person << {
+    @peoples.each do |person|
+      loaded_person << {
         age: person.age, name: person.name, id: person.id, specialization: person.specialization
       }
     end
@@ -132,13 +128,11 @@ class App
     loaded_rentle = @stored_rentals.load
     @rentals.each do |rental|
       loaded_rentle << { date: rental.date, book: { title: rental.book['title'], author: rental.book['author'] },
-                        person: { id: rental.person['id'], name: rental.person['name'], age: rental.person['age'],
-                                  class: rental.person['class'] } }
+                         person: { id: rental.person['id'], name: rental.person['name'], age: rental.person['age'],
+                                   class: rental.person['class'] } }
     end
     puts 'Rental created successfully'
     @stored_rentals.save(loaded_rentle)
-
-
   end
 
   def list_rentals
@@ -148,6 +142,7 @@ class App
     id = gets.chomp.to_i
     person = list_people.select { |p| p['id'] == id }
     return unless person[0]
+
     puts "#{person[0]['name']}'s rented books: \n"
     loaded_rental.each_with_index do |rental, _i| \
       if rental['person']['id'] == id
@@ -155,5 +150,4 @@ class App
       end
     end
   end
-
 end
